@@ -23,11 +23,11 @@ Google Guava is used for high performance thread-safe caching
 ## How to check ##
 * Make first requests with Apache Benchmark
 
-**ab -n 50 http://localhost:8080/test**
+`ab -n 50 http://localhost:8080/test`
 
 * Open URL in browser
 
-**http://localhost:8080/test**
+`http://localhost:8080/test`
 
 
 ## HTTP codes ##
