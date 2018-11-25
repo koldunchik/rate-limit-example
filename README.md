@@ -1,18 +1,16 @@
 # Rate Limit Example #
 
-50 requests per 60 seconds using Token Bucket Algorithm
+50 requests per 60 seconds
 
 For each IP address:
-* 3000 tokens are available for 60 seconds window
+* 3000 tokens are available initially
 * 1 request costs 60 tokens
 * 50 new tokens are issued every second
 
 ## Notes
 
-Bucket4j is used for Token Bucket Algorithm implementation
-
 Google Guava is used for high performance thread-safe caching
-
+with access expiration
 
 ## How to run ##
 `mvn clean package`

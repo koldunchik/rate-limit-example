@@ -41,10 +41,6 @@ public class RateLimitAspect {
             HttpServletResponse res = getResponse();
             res.setContentType("text/plain");
             res.setStatus(502);
-            LOG.info(
-                    "Rate is limited  {} : [{}]{}", req.getMethod(),
-                    ipAddress,
-                    req.getRequestURI());
             return null;
         }
     }
