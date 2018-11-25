@@ -15,17 +15,17 @@ Google Guava is used for high performance thread-safe caching
 
 
 ## How to run ##
-**mvn clean package**
+`mvn clean package`
 
-**java -jar test-1.jar**
+`java -jar test-1.jar`
 
 
 ## How to check ##
-* Make first requests with Apache Benchmark
+Make first requests with Apache Benchmark
 
 `ab -n 50 http://localhost:8080/test`
 
-* Open URL in browser
+Open URL in browser
 
 `http://localhost:8080/test`
 
