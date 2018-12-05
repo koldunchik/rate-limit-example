@@ -1,20 +1,18 @@
 package ws;
 
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Bucket {
     private final long capacity;
-    private final int refillPerSecond;
+    private final int refillPeriod;
 
     private AtomicLong availableTokens;
     private long lastRefill;
 
-    public Bucket(long capacity, int refillPerSecond) {
+    public Bucket(long capacity, int refillPeriod) {
         this.capacity = capacity;
-        this.refillPerSecond = refillPerSecond;
-        availableTokens = new AtomicLong(0L);
-        availableTokens.compareAndSet(0L, capacity);
+        this.refillPeriod = refillPeriod;
+        availableTokens = new AtomicLong(capacity);
     }
 
     public boolean tryConsume(int numTokens) {
@@ -33,20 +31,16 @@ public class Bucket {
                 return true;
             }
         }
-
     }
 
     private void refill() {
-        long currentTimeSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-        if (currentTimeSeconds <= lastRefill) return;
-
+        long currentTimeSeconds = Utils.currentTimeSeconds();
         long secondsSinceLastRefill = currentTimeSeconds - lastRefill;
-        long refill = secondsSinceLastRefill * refillPerSecond;
+        if (secondsSinceLastRefill < refillPeriod) return;
 
         long existingSize = availableTokens.get();
-        long newSize = Math.min(capacity, existingSize + refill);
-        if (availableTokens.compareAndSet(existingSize, newSize)) {
-            lastRefill = currentTimeSeconds;
+        if (availableTokens.compareAndSet(existingSize, capacity)) {
+            lastRefill = Utils.currentTimeSeconds();
         }
     }
 

@@ -16,7 +16,6 @@ public class IpChecker {
     private int SECONDS_EXPIRE_AFTER_ACCESS = PERIOD;    // The bucket is deleted after expiration time
     private int REQUEST_COST = 60;                       // Cost of 1 request
     private int TOKENS_IN_BUCKET = RPP * REQUEST_COST;   // Amount of tokens in bucket for 1 IP address
-    private int REFILL = TOKENS_IN_BUCKET / PERIOD;      // Number of tokens added to bucket every second
 
     private final LoadingCache<String, Bucket> bucketCache = CacheBuilder.newBuilder()
             .maximumSize(MAX_CACHE_SIZE)
@@ -25,7 +24,7 @@ public class IpChecker {
                     new CacheLoader<String, Bucket>() {
                         @Override
                         public Bucket load(String ip) throws Exception {
-                            return new Bucket(TOKENS_IN_BUCKET, REFILL);
+                            return new Bucket(TOKENS_IN_BUCKET, PERIOD);
                         }
                     }
             );
